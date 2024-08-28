@@ -1,0 +1,18 @@
+:root {
+	--space-xxs: 0.25rem;
+	--space-xs: 0.5rem;
+	--space-sm: 1rem;
+	--space-md: 1.5rem;
+	--space-lg: 2rem;
+	--space-xl: 3rem;
+	--space-xxl: 6rem;
+
+	--font-xl: 12rem;
+	--item-size: calc(182.4px - var(--space-xs));
+
+	--c-white: #fff;
+	--c-white-1: #fafafa;
+	--c-dark: #020202;
+	--c-dark-1: #040404;
+	--c-dark-2: #101010;
+}
