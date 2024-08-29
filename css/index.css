@@ -74,7 +74,7 @@ body {
 	grid-template-columns: auto;
 	padding: var(--space-sm);
 	height: 100vh;
-	overflow: height;
+	overflow: hidden;
 }
 
 .picture {
