@@ -1,13 +1,26 @@
+// Import data for the application
 import { DATA } from './DATA.js';
 
+// Constants for layout calculations
+// PADDING: space between items
+// ITEM_SIZE: size of each item minus padding
 const PADDING = 8;
 const ITEM_SIZE = 182.4 - PADDING;
+// Utility functions for DOM manipulation
+// select: finds a single element
+// Main event listener for when the DOM is fully loaded
+// selectAll: finds all elements and returns an array
+// create: creates a new DOM element
+	// Initialize the vertical scrollbar with custom options
+	// Set initial scroll position
 
 const select = element => document.querySelector(element);
 const selectAll = element => Array.from(document.querySelectorAll(element));
 const create = element => document.createElement(element);
 
 window.addEventListener('DOMContentLoaded', () => {
+	// Remove default scrollbar axes
+	// We'll handle scrolling effects manually
 	const content = select('.content');
 	const heading = select('.heading');
 
@@ -23,13 +36,18 @@ window.addEventListener('DOMContentLoaded', () => {
 	verticalScrollbar.addListener(({ offset }) => {
 		const itemFull = selectAll('.item-full');
 
+	// Add listener for scroll events
+		// Fade out heading when scrolling down
 		offset.y > 50
 			? gsap.to(heading, { opacity: 0 })
 			: gsap.to(heading, { opacity: 1 });
 
+		// Move full items in opposite direction of scroll
 		gsap.to(itemFull, { y: -offset.y, duration: 0 });
 	});
 
+	// Function to calculate and set positions of elements
+	// based on window size and data length
 	const setPositionCalculation = () => {
 		const containerFull = select('.item-container-full');
 		const containerTrasparent = select('.item-container-transparent');
@@ -45,14 +63,17 @@ window.addEventListener('DOMContentLoaded', () => {
 		gsap.set(containerTrasparent, { y: ITEM_SIZE * multiplyTime });
 	};
 
+	// Recalculate positions on window resize
 	window.addEventListener('resize', setPositionCalculation());
 
+	// Function to generate the list of items
 	const generateList = () => {
 		const scrollContent = select('.scroll-content');
 		const picture = create('div');
 		const containerFull = create('div');
 		const containerTrasparent = create('div');
 
+		// Set classes for newly created elements
 		gsap.set(picture, { className: 'picture' });
 		gsap.set(containerFull, { className: 'item-container-full' });
 		gsap.set(containerTrasparent, { className: 'item-container-transparent' });
@@ -60,6 +81,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		content.appendChild(containerFull);
 		scrollContent.insertAdjacentElement('beforeend', containerTrasparent);
 
+		// Create items for each data entry
 		DATA.map(item => {
 			const imagen = create('img');
 
@@ -74,6 +96,9 @@ window.addEventListener('DOMContentLoaded', () => {
 		});
 		content.appendChild(picture);
 	};
+
+	// Function to create individual item elements
+	// isTransparent determines if the item is for the transparent container
 	const createItem = (item, isTransparent = false) => {
 		const itemList = item.title.split(' ');
 
@@ -93,9 +118,12 @@ window.addEventListener('DOMContentLoaded', () => {
 		return itemContainer;
 	};
 
+	// Initialize the Intersection Observer
+	// This will handle animations based on scroll position
 	const iniObserver = () => {
 		const picturesList = selectAll('.img-select');
 
+		// Options for the Intersection Observer
 		let options = {
 			root: verticalScrollbar.containerEl,
 			rootMargin: ` ${ITEM_SIZE}px 0px -${ITEM_SIZE}px 0px `,
@@ -115,6 +143,8 @@ window.addEventListener('DOMContentLoaded', () => {
 			.forEach(item => observer.observe(item));
 	};
 
+	// Function to animate items as they enter or leave the viewport
+	// dir: 'in' for entering, 'out' for leaving
 	const animate = (entry, pictireList, dir) => {
 		const target = pictireList[entry.target.dataset.id - 1];
 
@@ -125,6 +155,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		});
 	};
 
+	// Initialize the application
 	generateList();
 	setPositionCalculation();
 	iniObserver();
