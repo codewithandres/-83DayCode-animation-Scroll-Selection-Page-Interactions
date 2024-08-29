@@ -4,6 +4,7 @@ import { DATA } from './DATA.js';
 // Constants for layout calculations
 // PADDING: space between items
 // ITEM_SIZE: size of each item minus padding
+
 const PADDING = 8;
 const ITEM_SIZE = 182.4 - PADDING;
 // Utility functions for DOM manipulation
@@ -11,8 +12,8 @@ const ITEM_SIZE = 182.4 - PADDING;
 // Main event listener for when the DOM is fully loaded
 // selectAll: finds all elements and returns an array
 // create: creates a new DOM element
-	// Initialize the vertical scrollbar with custom options
-	// Set initial scroll position
+// Initialize the vertical scrollbar with custom options
+// Set initial scroll position
 
 const select = element => document.querySelector(element);
 const selectAll = element => Array.from(document.querySelectorAll(element));
@@ -36,7 +37,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	verticalScrollbar.addListener(({ offset }) => {
 		const itemFull = selectAll('.item-full');
 
-	// Add listener for scroll events
+		// Add listener for scroll events
 		// Fade out heading when scrolling down
 		offset.y > 50
 			? gsap.to(heading, { opacity: 0 })
